@@ -22,8 +22,8 @@ export default new Vuex.Store({
       application: [],
     },
     names: {},
-    contracts: [],
-    documents: [],
+    contracts: {},
+    documents: {},
   },
   mutations: {
     addIdentity(state, { identity, type }) {
@@ -31,10 +31,21 @@ export default new Vuex.Store({
     },
     addName(state, { identity, name }) {
       const { id } = identity;
-      if (!state.names[id]) {
-        state.names[id] = [];
-      }
-      state.names[id].push(name);
+      const names = state.names[id] || [];
+      state.names = {
+        ...state.names,
+        [id]: [
+          ...names,
+          name,
+        ],
+      };
+    },
+    addContract(state, { identity, contract }) {
+      const { id } = identity;
+      state.contracts = {
+        ...state.contracts,
+        [id]: contract,
+      };
     },
   },
   actions: {
@@ -50,6 +61,12 @@ export default new Vuex.Store({
       });
       commit('addName', { identity, name });
     },
+    async registerContract({ commit }, { identity, json }) {
+      const contract = await new Promise((resolve) => {
+        setTimeout(() => resolve(json), 2000);
+      });
+      commit('addContract', { identity, contract });
+    },
   },
   getters: {
     identityLists(state) {
@@ -64,6 +81,13 @@ export default new Vuex.Store({
       return user.map(identity => ({
         ...identity,
         names: state.names[identity.id] || [],
+      }));
+    },
+    applicationIdentitiesWithContracts(state) {
+      const { application } = state.identities;
+      return application.map(identity => ({
+        ...identity,
+        contract: state.contracts[identity.id],
       }));
     },
   },

@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Identities from '@/views/Identities.vue';
+import Names from '@/views/Names.vue';
+import Contracts from '@/views/Contracts.vue';
+import Documents from '@/views/Documents.vue';
 
 Vue.use(VueRouter);
 
@@ -13,17 +16,17 @@ const routes = [
   {
     path: '/contracts',
     name: 'contracts',
-    component: () => import(/* webpackChunkName: "contracts" */ '../views/Contracts.vue'),
+    component: Contracts,
   },
   {
     path: '/documents',
     name: 'documents',
-    component: () => import(/* webpackChunkName: "documents" */ '../views/Documents.vue'),
+    component: Documents,
   },
   {
     path: '/names',
     name: 'names',
-    component: () => import(/* webpackChunkName: "names" */ '../views/Names.vue'),
+    component: Names,
   },
   {
     path: '*',

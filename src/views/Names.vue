@@ -6,7 +6,7 @@
           <thead>
             <tr>
               <th>Id</th>
-              <th>Registered names</th>
+              <th>Names</th>
               <th></th>
             </tr>
           </thead>
@@ -27,33 +27,38 @@
         </v-simple-table>
       </v-col>
     </v-row>
-    <v-alert v-else type="error">
-      You must have an identity
-      in order to create a domain name for it
-    </v-alert>
-
+    <v-row v-else>
+      <v-col>
+        <v-alert type="error">
+          You must have User Identity
+          in order to register a Domain Name for it
+        </v-alert>
+      </v-col>
+    </v-row>
     <v-dialog
         v-model="showNameDialog"
         max-width="400px"
     >
       <v-card>
-        <v-card-title>
-          Register a new domain name
-        </v-card-title>
-        <v-card-text>
-          <v-text-field counter v-model="name" />
-        </v-card-text>
-        <v-card-actions>
-          <v-btn text @click="showNameDialog">close</v-btn>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            :loading="submitting"
-            @click="submit"
-          >
-            submit
-          </v-btn>
-        </v-card-actions>
+        <v-form @submit="submit">
+          <v-card-title>
+            {{ selectedIdentity.id }}
+          </v-card-title>
+          <v-card-text>
+            <v-text-field counter v-model="name" label="Name" />
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text @click="showNameDialog = false">close</v-btn>
+            <v-spacer />
+            <v-btn
+              color="primary"
+              type="submit"
+              :loading="submitting"
+            >
+              Register
+            </v-btn>
+          </v-card-actions>
+        </v-form>
       </v-card>
     </v-dialog>
   </v-container>
@@ -67,7 +72,7 @@ export default {
     return {
       showNameDialog: false,
       submitting: false,
-      selectedIdentity: undefined,
+      selectedIdentity: {},
       name: '',
     };
   },
@@ -81,7 +86,8 @@ export default {
       this.name = '';
       this.showNameDialog = true;
     },
-    submit() {
+    submit(event) {
+      event.preventDefault();
       const { name, selectedIdentity } = this;
       this.submitting = true;
       this.registerName({
@@ -98,7 +104,10 @@ export default {
 </script>
 
 <style scoped>
-  tr>td:last-child{
+  tr>td:first-child {
+    width: 1%;
+  }
+  tr>td:last-child {
     width: 1%;
   }
 </style>

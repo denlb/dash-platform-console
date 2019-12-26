@@ -1,8 +1,12 @@
 <template>
   <v-container>
-    <v-alert type="warning">
-      Not Implemented
-    </v-alert>
+    <v-row>
+      <v-col>
+        <v-alert type="warning">
+          Not Implemented
+        </v-alert>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

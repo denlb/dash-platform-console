@@ -9,9 +9,9 @@
           <v-col>
             <h1>{{ list.type.name }}</h1>
           </v-col>
-          <v-col md="auto">
+          <v-col cols="auto">
             <v-btn
-              fab dark color="indigo"
+              fab dark color="primary"
               :loading="createIdentityLoading[list.type.name]"
               @click="() => createIdentity(list.type)"
             >
